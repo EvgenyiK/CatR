@@ -3,10 +3,6 @@ use clap::{App, Arg};
 
 type MyResult<T> = Result<T, Box<dyn Error>>;
 
-pub fn run(config: Config)-> MyResult<()>{
-    dbg!(config);
-    Ok(())
-}
 
 #[derive(Debug)]
 pub struct Config{
@@ -14,6 +10,7 @@ pub struct Config{
     number_lines: bool,
     number_nonblank_lines:bool,
 }
+
 
 pub fn get_args()-> MyResult<Config>{
     let matches = App::new("catr")
@@ -49,4 +46,11 @@ pub fn get_args()-> MyResult<Config>{
         number_lines: matches.is_present("number"),
         number_nonblank_lines: matches.is_present("number_nonblank"),
     })
+}
+
+pub fn run(config: Config)-> MyResult<()>{
+    for filename in config.files {
+        println!("{}", filename);
+    }
+    Ok(())
 }
